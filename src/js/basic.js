@@ -1,19 +1,28 @@
 export default class Validator {
-  // static regex = /^[a-z\d_]{4,16}$/;
-  // static regex = /^[\w-]$|[\d\d\d\d]$/;
-
   constructor(name) {
-    if (!this.validateUsr(name)) {
-      throw new Error('Ошибка, имя содержит недопустимые символы');
+    const result = function (username) {
+      if (/^[\w-]+$/.test(username) === false) {
+        console.log(username, '1В логине должны быть только латинские буквы, -,_');
+        return false;
+      }
+      if (/^[\d-_]/.test(username) === true) {
+        console.log(username, 'Логин не должен начинаться  с цифры,- или _');
+        return false;
+      }
+      if (/[\d-_]$/.test(username) === true) {
+        console.log('Логин не должен заканчиваться с цифры,- или _');
+        return false;
+      }
+      if (/\d{4}/.test(username) === true) {
+        console.log('Логин не должен содержать подряд более трёх цифр');
+        return false;
+      }
+      return true;
+    };
+    if (!result(name)) {
+      throw new Error(/Ошибка, имя содержит недопустимые символы/);
     } else {
       this.name = name;
     }
-  }
-
-  validateUsr(username) {
-    // return /^[\w-]$|^[\d\d\d\d]$/.test(username);
-    console.log('проверка результат', username, /^[a-zA-Z0-9]+$/.test(username));
-    // return /^[a-zA-Z1-9]+$/.test(username);
-    return /^[a-zA-Z0-9]+$/.test(username);
   }
 }
